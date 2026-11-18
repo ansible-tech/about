@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansible Technologies | Enterprise Software, AI & IoT Systems</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                            accent: '#38bdf8',
+                        },
+                        dark: {
+                            950: '#07090e',
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #07090e;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+        .glow-effect {
+            box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.25);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 50px -10px rgba(56, 189, 248, 0.25);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .grid-pattern {
+            background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col justify-between grid-pattern">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-dark-950/80 border-b border-slate-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-accent p-0.5 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-dark-950 rounded-[10px] flex items-center justify-center">
+                        <i data-lucide="cpu" class="w-5 h-5 text-brand-accent"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold tracking-wider text-white flex items-center gap-1">
+                        ANSIBLE <span class="text-brand-accent font-mono text-sm font-light">TECH</span>
+                    </span>
+                    <span class="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Next-Gen Systems</span>
+                </div>
+            </a>
+
+            <!-- Nav Links (Desktop) -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#solutions" class="text-slate-300 hover:text-brand-accent transition-colors">Solutions</a>
+                <a href="#iot-hardware" class="text-slate-300 hover:text-brand-accent transition-colors flex items-center gap-1.5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    IoT & Hardware
+                </a>
+                <a href="#ai-agents" class="text-slate-300 hover:text-brand-accent transition-colors">AI & Agents</a>
+                <a href="#stack" class="text-slate-300 hover:text-brand-accent transition-colors">Stack</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button onclick="openModal()" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-brand-500 to-brand-accent group-hover:from-brand-500 group-hover:to-brand-accent hover:text-white text-white focus:ring-4 focus:outline-none focus:ring-brand-800">
+                    <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-dark-950 rounded-md group-hover:bg-opacity-0 flex items-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i> Schedule Demo
+                    </span>
+                </button>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white p-2 rounded-lg">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-dark-950/95 px-4 pt-2 pb-6 space-y-3">
+            <a href="#solutions" class="block py-2 text-slate-300 hover:text-white">Solutions</a>
+            <a href="#iot-hardware" class="block py-2 text-slate-300 hover:text-white">IoT & Hardware</a>
+            <a href="#ai-agents" class="block py-2 text-slate-300 hover:text-white">AI Innovations</a>
+            <a href="#stack" class="block py-2 text-slate-300 hover:text-white">Tech Stack</a>
+            <button onclick="openModal()" class="w-full mt-2 py-3 bg-brand-600 text-white font-medium rounded-lg flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i> Contact Engineering
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-16 pb-24 lg:pt-28 lg:pb-36 overflow-hidden">
+        <!-- Ambient background glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-brand-accent/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-900/40 border border-brand-500/30 text-brand-accent text-xs sm:text-sm font-mono mb-8 backdrop-blur-md">
+                    <i data-lucide="terminal" class="w-4 h-4"></i>
+                    <span>ARCHITECTING NEXT-GEN ENTERPRISE & IOT ECOSYSTEMS</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight sm:leading-none mb-6">
+                    Powering High-Scale <br class="hidden sm:inline">
+                    <span class="gradient-text">Software & Hardware Systems</span>
+                </h1>
+                
+                <p class="text-slate-400 text-base sm:text-xl font-normal leading-relaxed max-w-3xl mx-auto mb-10">
+                    Ansible Technologies leads full-stack engineering teams developing mission-critical ERPs, ISP platforms, payment gateways, last-mile logistics, and cutting-edge IoT hardware integrations.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <a href="#solutions" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5">
+                        <i data-lucide="layers" class="w-5 h-5"></i> Explore Core Solutions
+                    </a>
+                    <button onclick="openModal()" class="w-full sm:w-auto px-8 py-4 bg-dark-800/80 hover:bg-dark-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700/80 flex items-center justify-center gap-2 backdrop-blur-md transition-all">
+                        <i data-lucide="message-square" class="w-5 h-5"></i> Speak with Engineering
+                    </button>
+                </div>
+
+                <!-- Hero KPI Badges -->
+                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 border-t border-slate-800/80 text-left">
+                    <div class="p-4 rounded-xl bg-dark-900/50 border border-slate-800/50">
+                        <div class="text-2xl font-bold font-mono text-white">99.99%</div>
+                        <div class="text-xs text-slate-400 mt-1">System Uptime SLAs</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-dark-900/50 border border-slate-800/50">
+                        <div class="text-2xl font-bold font-mono text-brand-accent">Sub-100ms</div>
+                        <div class="text-xs text-slate-400 mt-1">Payment & POS Latency</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-dark-900/50 border border-slate-800/50">
+                        <div class="text-2xl font-bold font-mono text-white">Real-Time</div>
+                        <div class="text-xs text-slate-400 mt-1">IoT Telemetry Processing</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-dark-900/50 border border-slate-800/50">
+                        <div class="text-2xl font-bold font-mono text-brand-accent">Autonomous</div>
+                        <div class="text-xs text-slate-400 mt-1">AI Workflow Execution</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE SOLUTIONS / CAPABILITIES GRID -->
+    <section id="solutions" class="py-20 bg-dark-900/60 border-y border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-mono text-brand-accent uppercase tracking-widest mb-3">Enterprise Stack</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Mission-Critical Systems Built For Scale</p>
+                <p class="text-slate-400 mt-3 text-base">Filter and explore our engineered product domains designed for high-density transactional loads.</p>
+                
+                <!-- Interactive Solution Filters -->
+                <div id="solution-filters" class="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <button data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-xs font-mono uppercase transition-all bg-brand-600 text-white border border-brand-500">All Systems</button>
+                    <button data-filter="enterprise" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono uppercase transition-all bg-dark-800 text-slate-400 hover:text-white border border-slate-700">Enterprise & Ops</button>
+                    <button data-filter="fintech" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono uppercase transition-all bg-dark-800 text-slate-400 hover:text-white border border-slate-700">Fintech & Retail</button>
+                    <button data-filter="logistics" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono uppercase transition-all bg-dark-800 text-slate-400 hover:text-white border border-slate-700">Logistics & ISP</button>
+                    <button data-filter="ai" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono uppercase transition-all bg-dark-800 text-slate-400 hover:text-white border border-slate-700">AI & Hardware</button>
+                </div>
+            </div>
+
+            <!-- Solutions Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- ERP -->
+                <div class="solution-card enterprise group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="building-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Enterprise Resource Planning (ERP)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Unified operational platforms consolidating HR, financial accounting, inventory workflows, and cross-department analytics in real-time.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Multi-entity Financial Modules</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Automated Compliance Reporting</li>
+                    </ul>
+                </div>
+
+                <!-- Payment Checkouts -->
+                <div class="solution-card fintech group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="credit-card" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Payment Checkouts & Gateways</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Secure, tokenized payment processing engines handling high concurrency web, mobile, and USSD checkouts seamlessly.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> PCI-DSS Compliant Orchestration</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Smart Multi-Rail Reconciliation</li>
+                    </ul>
+                </div>
+
+                <!-- ISP Software -->
+                <div class="solution-card logistics group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="wifi" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">ISP Operations Management</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Complete subscriber provisioning, RADIUS billing, bandwidth throttle automation, and network topology monitoring software.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> RADIUS & Mikrotik Auto-Provisioning</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Self-Service Customer Portals</li>
+                    </ul>
+                </div>
+
+                <!-- Logistics & Delivery -->
+                <div class="solution-card logistics group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="truck" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Logistics & Last Mile Systems</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Fleet routing engines, driver dispatch mobile apps, dynamic ETA calculation, and proof-of-delivery verifications.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Algorithmic Fleet Optimization</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Real-time GPS Telemetry Stream</li>
+                    </ul>
+                </div>
+
+                <!-- POS Systems -->
+                <div class="solution-card fintech group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Modern Point of Sale (POS)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Cloud-synced, offline-first retail POS systems for enterprise chains with hardware peripheral integrations.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Offline-first SQLite/PWA Cache</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Thermal Printer & Scanner SDKs</li>
+                    </ul>
+                </div>
+
+                <!-- E-Commerce & Distribution -->
+                <div class="solution-card enterprise group p-8 rounded-2xl bg-dark-950 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/10">
+                    <div class="w-12 h-12 rounded-xl bg-brand-900/50 border border-brand-500/30 flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="store" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">E-Commerce & Distribution</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Headless commerce architectures and B2B wholesale distribution portals with tiered pricing and multi-warehouse sync.</p>
+                    <ul class="text-xs font-mono text-slate-300 space-y-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Automated Wholesale Portals</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-accent"></i> Multi-Warehouse Allocation</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- AI POWERED SYSTEMS & AGENTS SECTION -->
+    <section id="ai-agents" class="py-20 bg-dark-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+                <div class="lg:col-span-5 mb-12 lg:mb-0">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/50 text-brand-accent text-xs font-mono mb-4 border border-brand-500/20">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>AI & AUTONOMOUS ENGINE</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-6">
+                        AI-Powered Agents & Intelligence Layers
+                    </h2>
+                    <p class="text-slate-400 text-base leading-relaxed mb-6">
+                        We don't just build software—we embed task-oriented AI Agents directly into enterprise workflows to eliminate manual data entry, automate predictive logistics, and enable natural language system querying.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 flex items-start gap-4">
+                            <div class="p-2 bg-brand-900/50 text-brand-accent rounded-lg">
+                                <i data-lucide="bot" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">Autonomous Operational Agents</h4>
+                                <p class="text-slate-400 text-xs mt-1">Self-correcting agents handling invoice parsing, route rescheduling, and automated anomaly flags.</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 flex items-start gap-4">
+                            <div class="p-2 bg-brand-900/50 text-brand-accent rounded-lg">
+                                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">Predictive Analytics & Forecasting</h4>
+                                <p class="text-slate-400 text-xs mt-1">Machine learning pipelines analyzing POS trends, stock replenishment thresholds, and churn risks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive AI Terminal Mockup -->
+                <div class="lg:col-span-7">
+                    <div class="rounded-2xl bg-dark-900 border border-slate-800 p-6 shadow-2xl font-mono text-sm relative">
+                        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800 text-xs text-slate-400">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                                <span class="ml-2 text-slate-400 font-sans">ansible-ai-agent-v2.1</span>
+                            </div>
+                            <span class="text-emerald-400 flex items-center gap-1"><i data-lucide="activity" class="w-3 h-3"></i> AGENT ACTIVE</span>
+                        </div>
+                        
+                        <div class="space-y-3 text-xs sm:text-sm">
+                            <div class="text-slate-500">[14:22:01] System Initialization Complete. Connected to ERP & Warehouse Streams.</div>
+                            <div class="text-brand-accent">&gt; Executing Agent: Freight_Route_Optimizer</div>
+                            <div class="text-slate-300 pl-4 border-l-2 border-brand-500/40 py-1">
+                                <p class="text-amber-300">⚡ Traffic congestion detected on Route B-4 (Last Mile Segment #882).</p>
+                                <p class="text-slate-300">Agent action: Re-routing 14 delivery vehicles in real-time. Saved ~38 mins ETA.</p>
+                            </div>
+                            <div class="text-brand-accent">&gt; Executing Agent: Smart_Parking_ANPR</div>
+                            <div class="text-slate-300 pl-4 border-l-2 border-emerald-500/40 py-1">
+                                <p class="text-emerald-300">✓ License Plate Recognized: [ KDA 892X ]</p>
+                                <p class="text-slate-300">Barrier Gate #02 Triggered. Relay signal sent (Latency: 18ms).</p>
+                            </div>
+                            <div class="pt-2 text-slate-500 flex items-center gap-2">
+                                <span class="animate-pulse font-bold text-brand-accent">▌</span> Listening for telemetry streams...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED SPOTLIGHT: IOT & HARDWARE DIVISION (PARKING SYSTEMS) -->
+    <section id="iot-hardware" class="py-20 bg-dark-900 border-t border-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-dark-950 to-dark-900 border border-slate-800 glow-cyan relative overflow-hidden">
+                <!-- Badge -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        CURRENT ONGOING PROJECT
+                    </div>
+                    <span class="text-xs font-mono text-slate-400">DIVISION: IOT & HARDWARE ENGINEERING</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6">
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+                            Next-Gen Smart IoT Parking Systems
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+                            We are actively hardware-crafting and deploying smart parking ecosystems. Combining ultrasonic/radar sensors, computer-vision Automatic Number Plate Recognition (ANPR), and automated barrier controllers linked to cloud billing.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4 text-xs font-mono mb-8">
+                            <div class="p-3 rounded-lg bg-dark-950 border border-slate-800">
+                                <div class="text-slate-400 mb-1">Hardware Interface</div>
+                                <div class="text-white font-semibold flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4 text-brand-accent"></i> ESP32 / STM32 Microcontrollers</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-dark-950 border border-slate-800">
+                                <div class="text-slate-400 mb-1">Protocol</div>
+                                <div class="text-white font-semibold flex items-center gap-1.5"><i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i> MQTT over TLS & CoAP</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Live Hardware Simulation Console -->
+                    <div class="lg:col-span-6 bg-dark-950 p-6 rounded-2xl border border-slate-800">
+                        <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-800">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="hard-drive" class="w-4 h-4 text-brand-accent"></i> Parking Lot Real-Time Telemetry
+                            </h3>
+                            <button id="toggle-sim-btn" class="px-2.5 py-1 text-[11px] font-mono rounded bg-brand-600/30 text-brand-accent border border-brand-500/40 hover:bg-brand-600/50 transition-colors">
+                                Simulate Entry
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Metrics Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                            <div class="p-3 rounded-xl bg-dark-900 border border-slate-800">
+                                <div class="text-[11px] text-slate-400">Available Spots</div>
+                                <div id="available-spots" class="text-2xl font-bold font-mono text-emerald-400 mt-1">42 / 120</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-dark-900 border border-slate-800">
+                                <div class="text-[11px] text-slate-400">Barrier Gate</div>
+                                <div id="gate-status" class="text-lg font-bold font-mono text-amber-400 mt-2 flex items-center gap-1">
+                                    <i data-lucide="lock" class="w-4 h-4"></i> CLOSED
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-dark-900 border border-slate-800 col-span-2 sm:col-span-1">
+                                <div class="text-[11px] text-slate-400">Sensor Status</div>
+                                <div class="text-xs font-bold font-mono text-slate-200 mt-2 flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 64 Ultrasonic OK
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Parking Bay Occupancy Wireframe -->
+                        <div class="border border-slate-800 rounded-xl p-4 bg-dark-900/60">
+                            <div class="text-xs font-mono text-slate-400 mb-3 flex justify-between">
+                                <span>Bay Occupancy Matrix</span>
+                                <span class="text-brand-accent">Zone A</span>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2" id="parking-matrix">
+                                <!-- JS will populate or manipulate active bays -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH STACK & ARCHITECTURE -->
+    <section id="stack" class="py-20 bg-dark-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-xs font-mono text-brand-accent uppercase tracking-widest mb-2">Engineered For Resilience</h2>
+                <p class="text-3xl font-extrabold text-white">Modern Tech Stack</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="code" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">Node.js / Golang</div>
+                    <div class="text-xs text-slate-400">Backend Systems</div>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="database" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">PostgreSQL / Redis</div>
+                    <div class="text-xs text-slate-400">High Speed Data Layer</div>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="cloud" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">Docker / K8s</div>
+                    <div class="text-xs text-slate-400">Container Deployments</div>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="cpu" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">C++ / Rust Embedded</div>
+                    <div class="text-xs text-slate-400">IoT Hardware Firmware</div>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="workflow" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">MQTT / Kafka</div>
+                    <div class="text-xs text-slate-400">Event Streaming</div>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-brand-accent mx-auto mb-2"></i>
+                    <div class="text-sm font-semibold text-white">OAuth2 / TLS 1.3</div>
+                    <div class="text-xs text-slate-400">Enterprise Security</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & CONSULTATION FOOTER CTA -->
+    <footer class="bg-dark-900 border-t border-slate-800 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-slate-800">
+                <div class="lg:col-span-5">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                            <i data-lucide="cpu" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-lg font-bold tracking-wider text-white">ANSIBLE TECHNOLOGIES</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Building complex enterprise software, IoT hardware integration, and autonomous AI systems. Ready to architect your next high-concurrency solution?
+                    </p>
+                    <div class="flex items-center space-x-4 text-slate-400">
+                        <a href="#" class="p-2 rounded-lg bg-dark-950 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                        <a href="#" class="p-2 rounded-lg bg-dark-950 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        <a href="#" class="p-2 rounded-lg bg-dark-950 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <h3 class="text-xl font-bold text-white mb-6">Initiate Technical Consultation</h3>
+                    
+                    <!-- Direct Form with primary styled checkboxes -->
+                    <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" required placeholder="Your Name" class="w-full px-4 py-3 rounded-lg bg-dark-950 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500">
+                            <input type="email" required placeholder="Corporate Email" class="w-full px-4 py-3 rounded-lg bg-dark-950 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500">
+                        </div>
+
+                        <!-- Checkboxes with primary accent styling -->
+                        <div class="py-2">
+                            <p class="text-xs text-slate-400 mb-3 font-mono">Select Required Systems/Domains:</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-300">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>ERP / Ops</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>Payment Gateways</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>ISP Software</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>IoT & Hardware</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>Logistics & Last-Mile</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="rounded bg-dark-950 border-slate-700 text-brand-600 accent-brand-500 w-4 h-4">
+                                    <span>AI Agents</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <textarea rows="3" placeholder="Project Scope / Operational Requirements" class="w-full px-4 py-3 rounded-lg bg-dark-950 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500"></textarea>
+                        
+                        <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg text-sm transition-colors flex items-center gap-2">
+                            <i data-lucide="send" class="w-4 h-4"></i> Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 Ansible Technologies. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-slate-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-400">Security Architecture</a>
+                    <a href="#" class="hover:text-slate-400">System Status</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE CONTACT MODAL -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-dark-950/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="bg-dark-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-white mb-2">Schedule Engineering Demo</h3>
+            <p class="text-slate-400 text-sm mb-6">Talk directly with our lead architects regarding your infrastructure & IoT needs.</p>
+
+            <form onsubmit="handleModalSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 mb-1">NAME</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-lg bg-dark-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 mb-1">WORK EMAIL</label>
+                    <input type="email" required class="w-full px-4 py-2.5 rounded-lg bg-dark-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-mono text-slate-400 mb-1">TARGET SOLUTION</label>
+                    <select class="w-full px-4 py-2.5 rounded-lg bg-dark-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-brand-500">
+                        <option>IoT & Smart Parking Hardware</option>
+                        <option>Enterprise ERP Platform</option>
+                        <option>ISP Management & Billing</option>
+                        <option>Payment Gateway Integration</option>
+                        <option>AI Agents & Automation</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg text-sm transition-colors mt-4">
+                    Confirm Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-brand-600 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span id="toast-msg" class="text-sm font-medium">Request submitted successfully!</span>
+    </div>
+
+    <!-- JAVASCRIPT FOR INTERACTIVITY -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Solution Category Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const solutionCards = document.querySelectorAll('.solution-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-brand-600', 'text-white');
+                    b.classList.add('bg-dark-800', 'text-slate-400');
+                });
+                btn.classList.remove('bg-dark-800', 'text-slate-400');
+                btn.classList.add('bg-brand-600', 'text-white');
+
+                const filter = btn.getAttribute('data-filter');
+                solutionCards.forEach(card => {
+                    if (filter === 'all' || card.classList.contains(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Parking Matrix Visualizer Simulation
+        const matrixContainer = document.getElementById('parking-matrix');
+        const availableSpotsElem = document.getElementById('available-spots');
+        const gateStatusElem = document.getElementById('gate-status');
+        const simBtn = document.getElementById('toggle-sim-btn');
+
+        let totalSpots = 18;
+        let occupiedCount = 8;
+
+        function renderMatrix() {
+            matrixContainer.innerHTML = '';
+            for (let i = 1; i <= totalSpots; i++) {
+                const isOccupied = i <= occupiedCount;
+                const spotDiv = document.createElement('div');
+                spotDiv.className = `h-8 rounded flex items-center justify-center text-[10px] font-mono border transition-all ${
+                    isOccupied 
+                        ? 'bg-rose-950/60 border-rose-800/80 text-rose-400' 
+                        : 'bg-emerald-950/60 border-emerald-800/80 text-emerald-400'
+                }`;
+                spotDiv.innerHTML = isOccupied ? `<i data-lucide="car" class="w-3.5 h-3.5"></i>` : `A-${i}`;
+                matrixContainer.appendChild(spotDiv);
+            }
+            availableSpotsElem.innerText = `${(120 - (occupiedCount * 4))} / 120`;
+            lucide.createIcons();
+        }
+
+        renderMatrix();
+
+        simBtn.addEventListener('click', () => {
+            // Trigger barrier animation sequence
+            gateStatusElem.innerHTML = `<i data-lucide="unlock" class="w-4 h-4 text-emerald-400"></i> OPEN (ANPR Pass)`;
+            gateStatusElem.className = "text-lg font-bold font-mono text-emerald-400 mt-2 flex items-center gap-1";
+            
+            if (occupiedCount < totalSpots) {
+                occupiedCount++;
+            } else {
+                occupiedCount = 4;
+            }
+
+            renderMatrix();
+
+            setTimeout(() => {
+                gateStatusElem.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> CLOSED`;
+                gateStatusElem.className = "text-lg font-bold font-mono text-amber-400 mt-2 flex items-center gap-1";
+                lucide.createIcons();
+            }, 2500);
+        });
+
+        // Modal Logic
+        function openModal() {
+            const modal = document.getElementById('modal-backdrop');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-backdrop');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Form handlers & Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            showToast("Inquiry received. Engineering team will contact you!");
+            e.target.reset();
+        }
+
+        function handleModalSubmit(e) {
+            e.preventDefault();
+            closeModal();
+            showToast("Demo request logged. Check your inbox shortly!");
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
